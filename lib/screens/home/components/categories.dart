@@ -48,13 +48,13 @@ class _CategoriesState extends State<Categories> {
     List<Map<String, dynamic>> categories = [
       {
         "icon": "assets/icons/Cash.svg",
-        "text": "Fedha Zote",
+        "text": "Account Balance",
         "amount": "Tsh1,000,000",
         "color": Colors.greenAccent, // Green color for this category
       },
       {
         "icon": "assets/icons/Cash.svg",
-        "text": "Mikopo Yote",
+        "text": "Total Loan",
         "amount": "Tsh230,400",
         "color": const Color(0xFFFFECDF), // Default color for other categories
       },

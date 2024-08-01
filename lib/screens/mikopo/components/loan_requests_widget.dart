@@ -236,6 +236,10 @@ class _LoanRequestsWidgetState extends State<LoanRequestsWidget> {
                                                   "Interest: ${request['interest'].toString()}"),
                                               Text(
                                                   "Return Duration: ${(request['duration'].toString())}"),
+                                              Text(
+                                                  "Sponsor_name: ${(request['sponsor_username'].toString()) ?? 'No name'}"),
+                                              Text(
+                                                  "Sponsor_email: ${(request['sponsor_email'].toString()) ?? 'No email'}"),
                                               request['accepted_at'] == null
                                                   ? const SizedBox()
                                                   : Text(

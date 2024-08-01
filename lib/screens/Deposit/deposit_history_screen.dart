@@ -10,6 +10,9 @@ import 'package:provider/provider.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+// import 'package:file_picker/file_picker.dart';
+import 'package:document_file_save_plus/document_file_save_plus.dart';
+
 // import '../../models/Deposits.dart'; // Import the Deposits class and demoDeposits list
 
 class DepositHistoryScreen extends StatefulWidget {
@@ -75,41 +78,67 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
         },
       ),
     );
+    // final directory = await getExternalStorageDirectory();
+    // final file = File("${directory?.path}/example.pdf");
 
-    try {
-      // Request permission if not granted
-      bool isPermissionGranted = await requestStoragePermission();
-      if (!isPermissionGranted) {
-        throw Exception("Permission denied for storage.");
-      }
-
-      // Get external storage directory
-      Directory? directory = await getExternalStorageDirectory();
-      if (directory == null) {
-        throw Exception("Unable to access external storage directory.");
-      }
-
-      // Create kikoba directory under external storage
-      final kikobaDir = Directory('${directory.path}/kikoba');
-      if (!await kikobaDir.exists()) {
-        await kikobaDir.create(recursive: true);
-      }
-
-      // Generate file name based on current timestamp
-      final file = File(
-          '${kikobaDir.path}/walletdeposits_${DateTime.now().toIso8601String()}.pdf');
-
-      // Save PDF to file
-      await file.writeAsBytes(await pdf.save());
-      print("PDF saved successfully at ${file.path}");
-      ShowMToast(context).successToast(
-          message: "PDF saved successfully at ${file.path}",
-          alignment: Alignment.bottomCenter);
-    } catch (e) {
-      ShowMToast(context).errorToast(
-          message: "Error saving PDF: $e", alignment: Alignment.bottomCenter);
-      print("Error saving PDF: $e");
+    // final pdfBytes = await pdf.save();
+    // await file.writeAsBytes(pdfBytes.toList());
+    // DocumentFileSave.saveFile(pdfBytes, "my_sample_file.pdf", "appliation/pdf");
+      // Ensure the directory exists
+    final directory = Directory('/storage/emulated/0/kikoba');
+    if (!(await directory.exists())) {
+      await directory.create(recursive: true);
     }
+
+    // Define the file path
+    final filePath = "${directory.path}/example.pdf";
+
+    // Save the PDF bytes
+    final pdfBytes = await pdf.save();
+    final file = File(filePath);
+    await file.writeAsBytes(pdfBytes.toList());
+    var save = DocumentFileSavePlus().saveFile(
+        pdfBytes,
+        "walletDeposit${DateTime.now().toIso8601String()}.pdf",
+        "walledDeposit/pdf");
+
+    ShowMToast(context).successToast(
+        message: "PDF saved successfully at ${filePath}",
+        alignment: Alignment.bottomCenter);
+    // try {
+    //   // Request permission if not granted
+    //   bool isPermissionGranted = await requestStoragePermission();
+    //   if (!isPermissionGranted) {
+    //     throw Exception("Permission denied for storage.");
+    //   }
+
+    //   // Get external storage directory
+    //   Directory? directory = await getExternalStorageDirectory();
+    //   if (directory == null) {
+    //     throw Exception("Unable to access external storage directory.");
+    //   }
+
+    //   // Create kikoba directory under external storage
+    //   final kikobaDir = Directory('${directory.path}/kikoba');
+    //   if (!await kikobaDir.exists()) {
+    //     await kikobaDir.create(recursive: true);
+    //   }
+
+    //   // Generate file name based on current timestamp
+    //   final file = File(
+    //       '${kikobaDir.path}/walletdeposits_${DateTime.now().toIso8601String()}.pdf');
+
+    //   // Save PDF to file
+    //   await file.writeAsBytes(await pdf.save());
+    //   print("PDF saved successfully at ${file.path}");
+    //   ShowMToast(context).successToast(
+    //       message: "PDF saved successfully at ${file.path}",
+    //       alignment: Alignment.bottomCenter);
+    // } catch (e) {
+    //   ShowMToast(context).errorToast(
+    //       message: "Error saving PDF: $e", alignment: Alignment.bottomCenter);
+    //   print("Error saving PDF: $e");
+    // }
 
     // try {
     //   final path = Directory('/storage/emulated/0/kikoba');
@@ -186,3 +215,17 @@ class _DepositHistoryScreenState extends State<DepositHistoryScreen> {
     );
   }
 }
+
+// class SaveHelper {
+//   static Future<void> save(List<int> bytes, String fileName) async {
+//     String? directory = await FilePicker.platform.getDirectoryPath();
+
+//     if (directory != null) {
+//       final File file = File('$directory/$fileName');
+//       if (file.existsSync()) {
+//         await file.delete();
+//       }
+//       await file.writeAsBytes(bytes);
+//     }
+//   }
+// }

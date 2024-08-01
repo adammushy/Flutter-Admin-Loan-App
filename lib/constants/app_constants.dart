@@ -15,13 +15,13 @@ class AppConstants {
   // static const String apiBaseUrl = 'http://192.168.47.193:8000/';
   // static const String mediaBaseUrl = 'http://192.168.47.193:8000';
 
-  static const String apiBaseUrl = 'http://192.168.1.7:8000/';
-  static const String mediaBaseUrl = 'http://192.168.1.7:8000';
+  // static const String apiBaseUrl = 'http://192.168.1.7:8000/';
+  // static const String mediaBaseUrl = 'http://192.168.1.7:8000';
   // static const String apiBaseUrl = 'http://192.168.217.68:8000/';
   // static const String mediaBaseUrl = 'http://192.168.217.68:8000';
 
-  // static const String apiBaseUrl = 'http://157.245.109.105:7000/';
-  // static const String mediaBaseUrl = 'http://157.245.109.105:7000';
+  static const String apiBaseUrl = 'http://157.245.109.105:7000/';
+  static const String mediaBaseUrl = 'http://157.245.109.105:7000';
   static const String loginUrl = 'user-management/login-user';
   static const String deleteUSerUrl = 'user-management/delete-user';
 
