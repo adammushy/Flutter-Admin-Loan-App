@@ -26,6 +26,7 @@ class LoanManagementProvider with ChangeNotifier {
         var body = res;
         if (body["error"] == false) {
           _pendingLoanList = body['data'];
+          print("pending LOAN ${_pendingLoanList}");
           notifyListeners();
           return true;
         }

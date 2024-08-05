@@ -109,7 +109,7 @@ class _LoanRequestsWidgetState extends State<LoanRequestsWidget> {
           _selectedIndex == 0
               ? Consumer<LoanManagementProvider>(
                   builder: (context, recordProvider, child) {
-                  // print("userss:: ${recordProvider.getPendingLoanList}");
+                  print("userss:: ${recordProvider.getPendingLoanList}");
                   return recordProvider.getPendingLoanList == null ||
                           recordProvider.getPendingLoanList.isEmpty
                       ? const Center(
@@ -124,70 +124,71 @@ class _LoanRequestsWidgetState extends State<LoanRequestsWidget> {
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: recordProvider.getPendingLoanList
-                              .map<Widget>((request) => InkWell(
-                                    onTap: () {
-                                      print(request);
-                                    },
-                                    child: Card(
-                                      elevation: 3,
-                                      margin: const EdgeInsets.symmetric(
-                                          vertical: 8),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
+                              .map<Widget>((request) {
+                            var pending = recordProvider.getPendingLoanList;
+                            // print("PENDIFLIST  :: ${pending}");
+                            // print("requesrtt  :: ${request}");
+
+                            return InkWell(
+                              onTap: () {
+                                print(request);
+                              },
+                              child: Card(
+                                elevation: 3,
+                                margin: const EdgeInsets.symmetric(vertical: 8),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.all(16),
+                                  title: Text(
+                                    "Loan request from : ${request['requested_by']['fullname']}",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Amount: ${request['amount']}"),
+                                      Text("Interest: ${request['interest']}"),
+                                      Text(
+                                          "Return Duration: ${(request['duration'])}"),
+                                      request['accepted_at'] == null
+                                          ? const SizedBox()
+                                          : Text(
+                                              "Issued At: ${formattedDate(request['accepted_at'])}"),
+                                      request['accepted_at'] == null
+                                          ? const SizedBox()
+                                          : Text(
+                                              "Rejected At: ${formattedDate(request['rejected_at'])}"),
+                                      request['requested_at'] == null
+                                          ? const SizedBox()
+                                          : Text(
+                                              "Requested At: ${formattedDate(request['requested_at'])}"),
+                                    ],
+                                  ),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.check),
+                                        onPressed: () {
+                                          _handleAccept(request['id']);
+                                        },
                                       ),
-                                      child: ListTile(
-                                        contentPadding:
-                                            const EdgeInsets.all(16),
-                                        title: Text(
-                                          "Loan request from : ${request['requested_by']['fullname']}",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        subtitle: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                                "Amount: ${request['amount']}"),
-                                            Text(
-                                                "Interest: ${request['interest']}"),
-                                            Text(
-                                                "Return Duration: ${(request['duration'])}"),
-                                            request['accepted_at'] == null
-                                                ? const SizedBox()
-                                                : Text(
-                                                    "Issued At: ${formattedDate(request['accepted_at'])}"),
-                                            request['accepted_at'] == null
-                                                ? const SizedBox()
-                                                : Text(
-                                                    "Rejected At: ${formattedDate(request['rejected_at'])}"),
-                                            request['requested_at'] == null
-                                                ? const SizedBox()
-                                                : Text(
-                                                    "Requested At: ${formattedDate(request['requested_at'])}"),
-                                          ],
-                                        ),
-                                        trailing: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            IconButton(
-                                              icon: const Icon(Icons.check),
-                                              onPressed: () {
-                                                _handleAccept(request['id']);
-                                              },
-                                            ),
-                                            IconButton(
-                                              icon: const Icon(Icons.clear),
-                                              onPressed: () {
-                                                _handleDeny(request['id']);
-                                              },
-                                            ),
-                                          ],
-                                        ),
+                                      IconButton(
+                                        icon: const Icon(Icons.clear),
+                                        onPressed: () {
+                                          _handleDeny(request['id']);
+                                        },
                                       ),
-                                    ),
-                                  ))
-                              .toList(),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
                         );
                 })
               : _selectedIndex == 1

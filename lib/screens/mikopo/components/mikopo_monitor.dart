@@ -49,6 +49,7 @@ class _MonitorLoanPageState extends State<MonitorLoanPage> {
             itemCount: loanProvider.loanRemaining.length,
             itemBuilder: (context, index) {
               final loan = loanProvider.loanRemaining[index];
+              print("wadaiwa  :: ${loan}");
               return Card(
                 elevation: 3,
                 margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -86,9 +87,10 @@ class _MonitorLoanPageState extends State<MonitorLoanPage> {
                   trailing: IconButton(
                     onPressed: () async {
                       var data = {"id": loan['id']};
-                      var result =
-                          await Provider.of<LoanManagementProvider>(context,listen: false)
-                              .reminderSms(context, data);
+                      var result = await Provider.of<LoanManagementProvider>(
+                              context,
+                              listen: false)
+                          .reminderSms(context, data);
                       if (result) {
                         ShowMToast(context).successToast(
                             message: "Sent successfully",
